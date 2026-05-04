@@ -1,5 +1,7 @@
+using Assets.W06_Playfab.Scripts.LoginSystem;
 using Dodgeball.Model;
 using MVP.Presenter;
+using TMPro;
 using UnityEngine;
 
 namespace Dodgeball.Presenter
@@ -18,6 +20,9 @@ namespace Dodgeball.Presenter
 
 		[SerializeField]
 		private GameObject _aimVisual;
+
+		[SerializeField]
+		private TextMeshProUGUI _displayText;
 
 		//Properties
 		public PlayerColor Color => Model.Color;
@@ -43,8 +48,9 @@ namespace Dodgeball.Presenter
 
 			SetControlledByPlayer(PlayerId == 0); // TODO: check for the local player id
 
-			base.Start();
+			if (_displayText != null) _displayText.text = PlayfabPlayer.Instance.DisplayName;
 
+			base.Start();
 		}
 
 		protected override void OnModelUpdated(PlayerModel previousModel)
