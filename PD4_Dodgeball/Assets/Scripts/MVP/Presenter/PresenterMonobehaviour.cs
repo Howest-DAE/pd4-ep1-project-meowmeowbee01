@@ -1,9 +1,9 @@
-using MVP.Model;
+using Assets.Scripts.MVP.Model;
 using System;
 using System.ComponentModel;
 using UnityEngine;
 
-namespace MVP.Presenter
+namespace Assets.Scripts.MVP.Presenter
 {
 	public abstract class PresenterMonobehaviour<T> : MonoBehaviour where T : ModelBase
 	{
@@ -68,7 +68,5 @@ namespace MVP.Presenter
 		{
 
 		}
-
-
 	}
 }

@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace MVP.Model
+namespace Assets.Scripts.MVP.Model
 {
 	public abstract class ModelBase : INotifyPropertyChanged
 	{

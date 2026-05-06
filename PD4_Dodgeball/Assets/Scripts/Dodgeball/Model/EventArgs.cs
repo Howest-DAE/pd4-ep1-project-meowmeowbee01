@@ -1,7 +1,7 @@
 using System;
 using System.Numerics;
 
-namespace Dodgeball.Model
+namespace Assets.Scripts.Dodgeball.Model
 {
 	public class PlayerIdEventArgs : EventArgs
 	{

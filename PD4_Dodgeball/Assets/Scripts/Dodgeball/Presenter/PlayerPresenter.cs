@@ -1,10 +1,13 @@
-using Assets.W06_Playfab.Scripts.LoginSystem;
-using Dodgeball.Model;
-using MVP.Presenter;
+using Assets.PlayFab.Scripts.LoginSystem;
+using Assets.Scripts.Dodgeball.Model;
+using Assets.Scripts.Effects;
+using Assets.Scripts.MVP.Presenter;
+using Assets.Scripts.Player;
+using Assets.Scripts.Player.Strategies;
 using TMPro;
 using UnityEngine;
 
-namespace Dodgeball.Presenter
+namespace Assets.Scripts.Dodgeball.Presenter
 {
 	public class PlayerPresenter : PresenterMonobehaviour<PlayerModel>
 	{
@@ -48,7 +51,7 @@ namespace Dodgeball.Presenter
 
 			SetControlledByPlayer(PlayerId == 0); // TODO: check for the local player id
 
-			if (_displayText != null) _displayText.text = PlayfabPlayer.Instance.DisplayName;
+			if (_displayText != null) _displayText.text = PlayFabPlayer.Instance.DisplayName;
 
 			base.Start();
 		}

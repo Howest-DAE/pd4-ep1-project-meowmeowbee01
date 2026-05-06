@@ -1,12 +1,12 @@
-﻿using PD4.Singleton;
+﻿using Assets.Scripts.Singleton;
 using PlayFab;
 using PlayFab.ClientModels;
 using System;
 using UnityEngine;
 
-namespace Assets.W06_Playfab.Scripts.LoginSystem
+namespace Assets.PlayFab.Scripts.LoginSystem
 {
-	class PlayfabPlayer : Singleton<PlayfabPlayer>
+	class PlayFabPlayer : Singleton<PlayFabPlayer>
 	{
 		public string PlayfabId { get; set; }
 		public string DisplayName { get; set; }

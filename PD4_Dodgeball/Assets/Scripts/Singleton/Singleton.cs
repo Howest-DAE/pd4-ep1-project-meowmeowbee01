@@ -1,4 +1,4 @@
-namespace PD4.Singleton
+namespace Assets.Scripts.Singleton
 {
 	public abstract class Singleton<T> where T : Singleton<T>, new()
 	{

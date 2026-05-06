@@ -1,74 +1,77 @@
-using Dodgeball.Presenter;
+using Assets.Scripts.Dodgeball.Presenter;
 using System;
 using UnityEngine;
 
-public class AIBallThrowingStrategy : IBallThrowingStrategy
+namespace Assets.Scripts.Player.Strategies
 {
-	const float _grabThrowCooldown = 2f;
-
-	private readonly ITargetProvider _targetProvider;
-	private readonly PlayerPresenter _player;
-
-	public event EventHandler GrabBallRequested;
-	public event EventHandler ThrowBallRequested;
-
-	private float _cooldown = _grabThrowCooldown;
-
-	public AIBallThrowingStrategy(ITargetProvider targetProvider, PlayerPresenter player)
+	public class AIBallThrowingStrategy : IBallThrowingStrategy
 	{
-		_targetProvider = targetProvider;
-		_player = player;
-	}
+		const float _grabThrowCooldown = 2f;
 
-	public void Update()
-	{
-		if (_player.Model == null) return;
+		private readonly ITargetProvider _targetProvider;
+		private readonly PlayerPresenter _player;
 
-		if (_cooldown > 0f)
+		public event EventHandler GrabBallRequested;
+		public event EventHandler ThrowBallRequested;
+
+		private float _cooldown = _grabThrowCooldown;
+
+		public AIBallThrowingStrategy(ITargetProvider targetProvider, PlayerPresenter player)
 		{
-			_cooldown -= Time.deltaTime;
-			return;
+			_targetProvider = targetProvider;
+			_player = player;
 		}
 
-		if (_player.Model.GrabbedBall == null)
-			TryGrabBall();
-		else
-			ThrowBall();
-
-
-	}
-
-	void TryGrabBall()
-	{
-		if (_player.Model.GrabbedBall != null) return;
-
-		OnRequestGrabBall();
-		if (_player.Model.GrabbedBall != null)
+		public void Update()
 		{
+			if (_player.Model == null) return;
+
+			if (_cooldown > 0f)
+			{
+				_cooldown -= Time.deltaTime;
+				return;
+			}
+
+			if (_player.Model.GrabbedBall == null)
+				TryGrabBall();
+			else
+				ThrowBall();
+
+
+		}
+
+		void TryGrabBall()
+		{
+			if (_player.Model.GrabbedBall != null) return;
+
+			OnRequestGrabBall();
+			if (_player.Model.GrabbedBall != null)
+			{
+				_cooldown = _grabThrowCooldown;
+			}
+		}
+
+		void ThrowBall()
+		{
+			if (_player.Model.GrabbedBall == null) return;
+			if (_targetProvider.TargetPlayer == null)
+				return;
+			Transform target = _targetProvider.TargetPlayer;
+			if (target == null) return;
+
+			//TODO: decide when to throw
+			OnRequestThrowBall();
 			_cooldown = _grabThrowCooldown;
 		}
-	}
 
-	void ThrowBall()
-	{
-		if (_player.Model.GrabbedBall == null) return;
-		if (_targetProvider.TargetPlayer == null)
-			return;
-		Transform target = _targetProvider.TargetPlayer;
-		if (target == null) return;
+		protected virtual void OnRequestGrabBall()
+		{
+			GrabBallRequested?.Invoke(this, EventArgs.Empty);
+		}
+		protected virtual void OnRequestThrowBall()
+		{
+			ThrowBallRequested?.Invoke(this, EventArgs.Empty);
+		}
 
-		//TODO: decide when to throw
-		OnRequestThrowBall();
-		_cooldown = _grabThrowCooldown;
 	}
-
-	protected virtual void OnRequestGrabBall()
-	{
-		GrabBallRequested?.Invoke(this, EventArgs.Empty);
-	}
-	protected virtual void OnRequestThrowBall()
-	{
-		ThrowBallRequested?.Invoke(this, EventArgs.Empty);
-	}
-
 }

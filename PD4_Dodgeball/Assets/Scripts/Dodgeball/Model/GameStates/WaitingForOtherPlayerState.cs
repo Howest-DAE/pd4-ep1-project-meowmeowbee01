@@ -1,9 +1,9 @@
-namespace Dodgeball.Model.GameStates
+namespace Assets.Scripts.Dodgeball.Model.GameStates
 {
 	public class WaitingForOtherPlayerState : BaseGameState
 	{
 		private float _timer;//TODO: remove timer
-		public WaitingForOtherPlayerState(GameStatesFSM fsm) : base(fsm)
+		public WaitingForOtherPlayerState(GameStatesFsm fsm) : base(fsm)
 		{
 		}
 
@@ -31,7 +31,5 @@ namespace Dodgeball.Model.GameStates
 			}
 
 		}
-
-
 	}
 }

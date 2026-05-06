@@ -1,7 +1,6 @@
+using Assets.Scripts.MVP.Model;
 
-using MVP.Model;
-
-namespace Dodgeball.Model
+namespace Assets.Scripts.Dodgeball.Model
 {
 
 	/// <summary>

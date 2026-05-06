@@ -1,7 +1,7 @@
-using Dodgeball.Model;
+using Assets.Scripts.Dodgeball.Model;
 using UnityEngine;
 
-namespace Dodgeball.Presenter
+namespace Assets.Scripts.Dodgeball.Presenter
 {
 	public class BallSpawner : MonoBehaviour //No model to present
 	{

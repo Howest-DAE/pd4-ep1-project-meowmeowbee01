@@ -1,21 +1,18 @@
-using FSM;
+using Assets.Scripts.StatePattern;
 
-namespace Dodgeball.Model.GameStates
+namespace Assets.Scripts.Dodgeball.Model.GameStates
 {
-
-	public class GameStatesFSM : FiniteStateMachine
+	public class GameStatesFsm : FiniteStateMachine
 	{
-
 		public SelectTeamState SelectTeamState { get; private set; }
 		public WaitingForOtherPlayerState WaitingForOtherPlayerState { get; private set; }
 		public CountdownState CountdownState { get; private set; }
 		public MatchPlayingState MatchPlayingState { get; private set; }
 		public GameOverState GameOverState { get; private set; }
 
-
 		public GameModel Context { get; }
 
-		public GameStatesFSM(GameModel context)
+		public GameStatesFsm(GameModel context)
 		{
 			WaitingForOtherPlayerState = new WaitingForOtherPlayerState(this);
 			SelectTeamState = new SelectTeamState(this);

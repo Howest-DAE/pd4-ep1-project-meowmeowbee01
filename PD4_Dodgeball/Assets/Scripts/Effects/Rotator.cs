@@ -1,13 +1,16 @@
 using UnityEngine;
 
-public class Rotator : MonoBehaviour
+namespace Assets.Scripts.Effects
 {
-    [SerializeField]
-    private Vector3 _eulerSpeeds;
+	public class Rotator : MonoBehaviour
+	{
+		[SerializeField]
+		private Vector3 _eulerSpeeds;
 
-    // Update is called once per frame
-    void Update()
-    {
-        transform.Rotate(_eulerSpeeds * Time.deltaTime);
-    }
+		// Update is called once per frame
+		void Update()
+		{
+			transform.Rotate(_eulerSpeeds * Time.deltaTime);
+		}
+	}
 }

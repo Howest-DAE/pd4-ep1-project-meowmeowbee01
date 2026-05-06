@@ -1,8 +1,9 @@
-using Dodgeball.Model;
-using MVP.Presenter;
+using Assets.Scripts.Dodgeball.Model;
+using Assets.Scripts.MVP.Presenter;
+using Assets.Scripts.Player;
 using UnityEngine;
 
-namespace Dodgeball.Presenter
+namespace Assets.Scripts.Dodgeball.Presenter
 {
 	public class GamePresenter : PresenterMonobehaviour<GameModel>
 	{
@@ -60,8 +61,5 @@ namespace Dodgeball.Presenter
 
 			}
 		}
-
-
-
 	}
 }

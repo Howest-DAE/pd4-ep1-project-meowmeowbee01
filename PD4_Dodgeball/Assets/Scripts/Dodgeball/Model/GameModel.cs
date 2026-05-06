@@ -1,8 +1,9 @@
-using Dodgeball.Model.GameStates;
-using MVP.Model;
+using Assets.Scripts.Dodgeball.Model.GameStates;
+using Assets.Scripts.Dodgeball.Model.TeamSelection;
+using Assets.Scripts.MVP.Model;
 using System;
 
-namespace Dodgeball.Model
+namespace Assets.Scripts.Dodgeball.Model
 {
 	/// <summary>
 	/// Game Model covers the entire game flow starting with team selection up until the Game Over screen.
@@ -53,11 +54,11 @@ namespace Dodgeball.Model
 			}
 		}
 
-		private GameStatesFSM _statesFSM;
+		private GameStatesFsm _statesFSM;
 
 		public GameModel()
 		{
-			_statesFSM = new GameStatesFSM(this);
+			_statesFSM = new GameStatesFsm(this);
 			SetCurrentGameState();
 			_statesFSM.StateChanged += _statesFSM_StateChanged;
 

@@ -1,10 +1,10 @@
-namespace Dodgeball.Model.GameStates
+namespace Assets.Scripts.Dodgeball.Model.GameStates
 {
 	public class CountdownState : BaseGameState
 	{
 		const float _countdownTime = 4f;
 		const float _speedModifier = 2f; //make countdown feel snappier
-		public CountdownState(GameStatesFSM fsm) : base(fsm)
+		public CountdownState(GameStatesFsm fsm) : base(fsm)
 		{
 		}
 

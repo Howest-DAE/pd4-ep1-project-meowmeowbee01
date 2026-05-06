@@ -1,13 +1,11 @@
 using PlayFab;
-using PlayFab.ClientModels;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace Assets.W06_Playfab.Scripts.LoginSystem
+namespace Assets.PlayFab.Scripts.LoginSystem
 {
-
 	/// <summary>
 	/// Main controller for the login UI system.
 	/// Manages panel switching and coordinates between login and registration flows.
@@ -96,24 +94,24 @@ namespace Assets.W06_Playfab.Scripts.LoginSystem
 			Debug.Log($"Login attempt: {email}");
 			//DONE: call PlayFab Login Attempt
 
-			LoginWithEmailAddressRequest loginRequest = new()
-			{
-				Email = email,
-				Password = password
-			};
-
 			PlayFabClientAPI.LoginWithEmailAddress
 			(
-				loginRequest,
+				new()
+				{
+					Email = email,
+					Password = password
+				},
 				r =>
 				{
 					Debug.Log("log in succes");
-					PlayfabPlayer.Instance.FetchDisplayName(async () => await SceneManager.LoadSceneAsync(0));
+					PlayFabPlayer.Instance.FetchDisplayName(async () => await SceneManager.LoadSceneAsync("LobbyScene"));
 				},
 				e =>
 				{
 					Debug.LogError($"log in failed: {e}");
-					_loginPanelView.ShowError(e.ToString());
+					string message = "Register failed:";
+					foreach (var pair in e.ErrorDetails) foreach (var msg in pair.Value) message += $"\n{msg}";
+					_loginPanelView.ShowError(message);
 				}
 			);
 		}
@@ -124,7 +122,6 @@ namespace Assets.W06_Playfab.Scripts.LoginSystem
 			string email = _registrationPanelView.Email;
 			string password = _registrationPanelView.Password;
 			string displayName = _registrationPanelView.DisplayName;
-			string username = displayName;
 
 			if (!ValidateInputs(email, password))
 			{
@@ -136,17 +133,15 @@ namespace Assets.W06_Playfab.Scripts.LoginSystem
 			_registrationPanelView.HideError();
 			// DONE: Call PlayFab register method
 
-			RegisterPlayFabUserRequest registerRequest = new()
-			{
-				Email = email,
-				Password = password,
-				Username = username,
-				DisplayName = username
-			};
-
 			PlayFabClientAPI.RegisterPlayFabUser
 			(
-				registerRequest,
+				new()
+				{
+					Email = email,
+					Password = password,
+					Username = displayName,
+					DisplayName = displayName
+				},
 				r => Debug.Log($"register succes. id: {r.PlayFabId}"),
 				e =>
 				{

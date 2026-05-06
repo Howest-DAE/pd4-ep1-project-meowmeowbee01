@@ -1,87 +1,91 @@
 using System;
 using UnityEngine;
-public class PlayerInputMoveStrategy : IPlayerMoveStrategy
+
+namespace Assets.Scripts.Player.Strategies
 {
-	private readonly Transform _playerTransform;
-	private readonly Transform _cameraTransform;
-
-	private readonly PlayerInputActions _inputActions;
-	private readonly PlayerRotationSettings _rotationSettings;
-
-	public event EventHandler CrouchStarted;
-	public event EventHandler CrouchEnded;
-	public event EventHandler JumpRequested;
-
-	private float _lookRotX = 0f;
-	private float _lookRotY = 0f;
-
-	public PlayerInputMoveStrategy(Transform playerTransform, Transform cameraTransform,
-		PlayerInputActions inputActions, PlayerRotationSettings rotSettings)
+	public class PlayerInputMoveStrategy : IPlayerMoveStrategy
 	{
-		inputActions.JumpAction.Enable();
-		inputActions.CrouchAction.Enable();
-		inputActions.MoveAction.Enable();
-		inputActions.LookAction.Enable();
+		private readonly Transform _playerTransform;
+		private readonly Transform _cameraTransform;
 
-		inputActions.JumpAction.performed += (e) => OnJumpRequested();
-		inputActions.CrouchAction.started += (e) => OnCrouchStarted();
-		inputActions.CrouchAction.canceled += (e) => OnCrouchEnded();
+		private readonly PlayerInputActions _inputActions;
+		private readonly PlayerRotationSettings _rotationSettings;
 
+		public event EventHandler CrouchStarted;
+		public event EventHandler CrouchEnded;
+		public event EventHandler JumpRequested;
 
-		_playerTransform = playerTransform;
-		_cameraTransform = cameraTransform;
-		_inputActions = inputActions;
-		_rotationSettings = rotSettings;
+		private float _lookRotX = 0f;
+		private float _lookRotY = 0f;
 
-		_lookRotY = _playerTransform.rotation.eulerAngles.y;
-	}
+		public PlayerInputMoveStrategy(Transform playerTransform, Transform cameraTransform,
+			PlayerInputActions inputActions, PlayerRotationSettings rotSettings)
+		{
+			inputActions.JumpAction.Enable();
+			inputActions.CrouchAction.Enable();
+			inputActions.MoveAction.Enable();
+			inputActions.LookAction.Enable();
 
-	public Vector3 CalculateMovement()
-	{
-		Vector2 moveInput = _inputActions.MoveAction.ReadValue<Vector2>();
-		Vector3 forward = _cameraTransform.forward;
-		Vector3 right = _cameraTransform.right;
-		forward.y = 0f;
-		right.y = 0f;
-
-		forward.Normalize();
-		right.Normalize();
-
-		Vector3 moveLocal = right * moveInput.x + forward * moveInput.y;
-		moveLocal = Vector3.ClampMagnitude(moveLocal, 1f);
+			inputActions.JumpAction.performed += (e) => OnJumpRequested();
+			inputActions.CrouchAction.started += (e) => OnCrouchStarted();
+			inputActions.CrouchAction.canceled += (e) => OnCrouchEnded();
 
 
-		return moveLocal;
-	}
+			_playerTransform = playerTransform;
+			_cameraTransform = cameraTransform;
+			_inputActions = inputActions;
+			_rotationSettings = rotSettings;
 
-	public Vector3 CalculateLookDirection()
-	{
-		Vector2 lookInput = _inputActions.LookAction.ReadValue<Vector2>();
+			_lookRotY = _playerTransform.rotation.eulerAngles.y;
+		}
+
+		public Vector3 CalculateMovement()
+		{
+			Vector2 moveInput = _inputActions.MoveAction.ReadValue<Vector2>();
+			Vector3 forward = _cameraTransform.forward;
+			Vector3 right = _cameraTransform.right;
+			forward.y = 0f;
+			right.y = 0f;
+
+			forward.Normalize();
+			right.Normalize();
+
+			Vector3 moveLocal = right * moveInput.x + forward * moveInput.y;
+			moveLocal = Vector3.ClampMagnitude(moveLocal, 1f);
 
 
-		//horizontal rotation
-		_lookRotY += lookInput.x * Time.deltaTime * _rotationSettings.LookRotSpeedHor;
+			return moveLocal;
+		}
 
-		//vertical rotation
-		_lookRotX += lookInput.y * Time.deltaTime * _rotationSettings.LookRotSpeedVert;
-		_lookRotX = Mathf.Clamp(_lookRotX, _rotationSettings.MinLookAngleX, _rotationSettings.MaxLookAngleX);
-		//_lookRotPivot.localRotation = Quaternion.Euler(_lookRotX, 0f, 0f);
-
-
-		return Quaternion.Euler(_lookRotX, _lookRotY, 0f) * Vector3.forward;
-	}
+		public Vector3 CalculateLookDirection()
+		{
+			Vector2 lookInput = _inputActions.LookAction.ReadValue<Vector2>();
 
 
-	protected virtual void OnCrouchStarted()
-	{
-		CrouchStarted?.Invoke(this, EventArgs.Empty);
-	}
-	protected virtual void OnCrouchEnded()
-	{
-		CrouchEnded?.Invoke(this, EventArgs.Empty);
-	}
-	protected virtual void OnJumpRequested()
-	{
-		JumpRequested?.Invoke(this, EventArgs.Empty);
+			//horizontal rotation
+			_lookRotY += lookInput.x * Time.deltaTime * _rotationSettings.LookRotSpeedHor;
+
+			//vertical rotation
+			_lookRotX += lookInput.y * Time.deltaTime * _rotationSettings.LookRotSpeedVert;
+			_lookRotX = Mathf.Clamp(_lookRotX, _rotationSettings.MinLookAngleX, _rotationSettings.MaxLookAngleX);
+			//_lookRotPivot.localRotation = Quaternion.Euler(_lookRotX, 0f, 0f);
+
+
+			return Quaternion.Euler(_lookRotX, _lookRotY, 0f) * Vector3.forward;
+		}
+
+
+		protected virtual void OnCrouchStarted()
+		{
+			CrouchStarted?.Invoke(this, EventArgs.Empty);
+		}
+		protected virtual void OnCrouchEnded()
+		{
+			CrouchEnded?.Invoke(this, EventArgs.Empty);
+		}
+		protected virtual void OnJumpRequested()
+		{
+			JumpRequested?.Invoke(this, EventArgs.Empty);
+		}
 	}
 }

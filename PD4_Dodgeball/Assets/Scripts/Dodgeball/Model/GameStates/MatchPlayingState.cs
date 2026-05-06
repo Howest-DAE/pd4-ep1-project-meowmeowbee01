@@ -1,9 +1,9 @@
-namespace Dodgeball.Model.GameStates
+namespace Assets.Scripts.Dodgeball.Model.GameStates
 {
 	public class MatchPlayingState : BaseGameState
 	{
 		private MatchModel _currentMatch = null;
-		public MatchPlayingState(GameStatesFSM fsm) : base(fsm)
+		public MatchPlayingState(GameStatesFsm fsm) : base(fsm)
 		{
 		}
 

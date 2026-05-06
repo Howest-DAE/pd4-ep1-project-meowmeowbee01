@@ -1,9 +1,9 @@
-using Dodgeball.Model;
-using MVP.Presenter;
+using Assets.Scripts.Dodgeball.Model;
+using Assets.Scripts.MVP.Presenter;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Dodgeball.Presenter
+namespace Assets.Scripts.Dodgeball.Presenter.GameUI
 {
 	public class CountdownUI : PresenterMonobehaviour<GameModel>
 	{

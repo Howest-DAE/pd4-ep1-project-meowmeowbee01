@@ -1,11 +1,11 @@
-namespace Dodgeball.Model.GameStates
+using Assets.Scripts.Dodgeball.Model.TeamSelection;
+
+namespace Assets.Scripts.Dodgeball.Model.GameStates
 {
 	public class SelectTeamState : BaseGameState
 	{
-
-		public SelectTeamState(GameStatesFSM fsm) : base(fsm)
+		public SelectTeamState(GameStatesFsm fsm) : base(fsm)
 		{
-
 		}
 
 		public override void OnEnter()

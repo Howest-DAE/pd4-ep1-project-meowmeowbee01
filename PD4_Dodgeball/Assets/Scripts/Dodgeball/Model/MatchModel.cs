@@ -1,7 +1,7 @@
-using MVP.Model;
+using Assets.Scripts.MVP.Model;
 using System;
 
-namespace Dodgeball.Model
+namespace Assets.Scripts.Dodgeball.Model
 {
 	/// <summary>
 	/// MatchModel keeps track of the scores and the time.

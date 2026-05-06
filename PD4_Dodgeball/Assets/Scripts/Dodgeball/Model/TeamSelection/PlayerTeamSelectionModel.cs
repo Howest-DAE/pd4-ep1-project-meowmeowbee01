@@ -1,6 +1,6 @@
-using MVP.Model;
+using Assets.Scripts.MVP.Model;
 
-namespace Dodgeball.Model
+namespace Assets.Scripts.Dodgeball.Model.TeamSelection
 {
 	public class PlayerTeamSelectionModel : ModelBase
 	{

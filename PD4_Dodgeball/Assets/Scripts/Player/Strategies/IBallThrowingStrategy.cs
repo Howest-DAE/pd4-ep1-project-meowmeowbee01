@@ -1,9 +1,12 @@
 using System;
 
-public interface IBallThrowingStrategy
+namespace Assets.Scripts.Player.Strategies
 {
-	event EventHandler GrabBallRequested;
-	event EventHandler ThrowBallRequested;
+	public interface IBallThrowingStrategy
+	{
+		event EventHandler GrabBallRequested;
+		event EventHandler ThrowBallRequested;
 
-	void Update();
+		void Update();
+	}
 }

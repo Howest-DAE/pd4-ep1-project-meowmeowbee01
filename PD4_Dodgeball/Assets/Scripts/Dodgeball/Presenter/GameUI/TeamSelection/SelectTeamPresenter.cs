@@ -1,10 +1,11 @@
-using Dodgeball.Model;
-using MVP.Presenter;
+using Assets.Scripts.Dodgeball.Model;
+using Assets.Scripts.Dodgeball.Model.TeamSelection;
+using Assets.Scripts.MVP.Presenter;
 using System;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 
-namespace Dodgeball.Presenter
+namespace Assets.Scripts.Dodgeball.Presenter.GameUI.TeamSelection
 {
 	public class SelectTeamPresenter : PresenterBase<SelectTeamModel>
 	{

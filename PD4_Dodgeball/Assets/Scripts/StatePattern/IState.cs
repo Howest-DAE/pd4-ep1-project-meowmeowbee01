@@ -1,6 +1,4 @@
-using UnityEngine;
-
-namespace FSM
+namespace Assets.Scripts.StatePattern
 {
 	public interface IState
 	{

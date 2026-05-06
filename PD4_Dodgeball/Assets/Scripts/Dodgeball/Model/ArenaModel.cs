@@ -1,8 +1,8 @@
-using MVP.Model;
+using Assets.Scripts.MVP.Model;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Dodgeball.Model
+namespace Assets.Scripts.Dodgeball.Model
 {
 
 	/// <summary>

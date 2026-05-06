@@ -1,6 +1,6 @@
 using System;
 
-namespace FSM
+namespace Assets.Scripts.StatePattern
 {
 	public abstract class FiniteStateMachine
 	{
@@ -27,7 +27,7 @@ namespace FSM
 			if (newState == null) return;
 			if (newState == CurrentState) return;
 
-			if (CurrentState != null) 
+			if (CurrentState != null)
 				CurrentState.OnExit();
 
 			CurrentState = newState;

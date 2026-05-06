@@ -1,8 +1,8 @@
-using MVP.Model;
+using Assets.Scripts.MVP.Model;
 using System;
 using System.ComponentModel;
 
-namespace MVP.Presenter
+namespace Assets.Scripts.MVP.Presenter
 {
 	public abstract class PresenterBase<T> where T : ModelBase
 	{

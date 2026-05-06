@@ -1,4 +1,4 @@
-namespace Dodgeball.Presenter
+namespace Assets.Scripts.Player
 {
 	public static class Vector3Converter
 	{

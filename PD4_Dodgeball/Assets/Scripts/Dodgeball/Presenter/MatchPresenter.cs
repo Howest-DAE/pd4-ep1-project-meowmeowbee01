@@ -1,9 +1,9 @@
 
-using Dodgeball.Model;
-using MVP.Presenter;
+using Assets.Scripts.Dodgeball.Model;
+using Assets.Scripts.MVP.Presenter;
 using UnityEngine;
 
-namespace Dodgeball.Presenter
+namespace Assets.Scripts.Dodgeball.Presenter
 {
 	public class MatchPresenter : PresenterMonobehaviour<MatchModel>
 	{

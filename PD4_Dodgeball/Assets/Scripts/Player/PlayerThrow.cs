@@ -1,8 +1,10 @@
-using Dodgeball.Model;
-using MVP.Presenter;
+using Assets.Scripts.Dodgeball.Model;
+using Assets.Scripts.Dodgeball.Presenter;
+using Assets.Scripts.MVP.Presenter;
+using Assets.Scripts.Player.Strategies;
 using UnityEngine;
 
-namespace Dodgeball.Presenter
+namespace Assets.Scripts.Player
 {
 	public class PlayerThrow : PresenterMonobehaviour<PlayerModel>
 	{

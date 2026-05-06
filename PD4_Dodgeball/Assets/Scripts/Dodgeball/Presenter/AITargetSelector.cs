@@ -1,7 +1,8 @@
+using Assets.Scripts.Player.Strategies;
 using System.Linq;
 using UnityEngine;
 
-namespace Dodgeball.Presenter
+namespace Assets.Scripts.Dodgeball.Presenter
 {
 	/// <summary>
 	/// This class contains the logic of selecting and storing a target for the AI player.

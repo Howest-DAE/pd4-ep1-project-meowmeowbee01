@@ -1,10 +1,10 @@
-using MVP.Model;
+using Assets.Scripts.MVP.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
-namespace Dodgeball.Model
+namespace Assets.Scripts.Dodgeball.Model
 {
 	public enum PlayerColor
 	{
