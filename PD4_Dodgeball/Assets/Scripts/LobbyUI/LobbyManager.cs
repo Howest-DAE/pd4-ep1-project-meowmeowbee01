@@ -59,7 +59,6 @@ namespace Assets.Scripts.LobbyUI
 		{
 			await UnityServices.InitializeAsync();
 			await AuthenticationService.Instance.SignInAnonymouslyAsync();
-
 		}
 
 		private async void Update()
@@ -70,7 +69,6 @@ namespace Assets.Scripts.LobbyUI
 
 		private void OnSessionJoined()
 		{
-			SessionJoined?.Invoke(this, EventArgs.Empty);
 			if (ActiveSession == null) return;
 			var transport = NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
 			transport.SetRelayServerData(ActiveSession.RelayServerData);
@@ -84,6 +82,7 @@ namespace Assets.Scripts.LobbyUI
 				NetworkManager.Singleton.StartClient();
 				Debug.Log("started as client");
 			}
+			SessionJoined?.Invoke(this, EventArgs.Empty);
 		}
 
 		//private void OnSessionLeft()

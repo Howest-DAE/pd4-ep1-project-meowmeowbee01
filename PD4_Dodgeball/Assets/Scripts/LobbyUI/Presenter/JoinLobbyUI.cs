@@ -1,6 +1,7 @@
 using Assets.Scripts.LobbyUI.Model;
 using Assets.Scripts.MVP.Presenter;
 using System.Linq;
+using System.Threading.Tasks;
 using Unity.Services.Lobbies.Models;
 using UnityEngine.UIElements;
 
@@ -18,8 +19,8 @@ namespace Assets.Scripts.LobbyUI.Presenter
 			_joinButton = panelRoot.Q<Button>("btn_join");
 			_refreshButton = panelRoot.Q<Button>("btn_refresh");
 
-			_joinButton.clicked += async () => JoinButton_clicked();
-			_refreshButton.clicked += async () => RefreshButton_clicked();
+			_joinButton.clicked += async () => await JoinButton_clicked();
+			_refreshButton.clicked += async () => await RefreshButton_clicked();
 
 			_lobbiesListView = panelRoot.Q<ListView>();
 			_lobbiesListView.bindItem = ItemBinding;
@@ -35,11 +36,11 @@ namespace Assets.Scripts.LobbyUI.Presenter
 			item.Q<Label>().text = lobby.Name;
 		}
 
-		private async void RefreshButton_clicked()
+		private async Task RefreshButton_clicked()
 		{
 			await Model.RefreshList();
 		}
-		private async void JoinButton_clicked()
+		private async Task JoinButton_clicked()
 		{
 			await Model.JoinLobby();
 		}
