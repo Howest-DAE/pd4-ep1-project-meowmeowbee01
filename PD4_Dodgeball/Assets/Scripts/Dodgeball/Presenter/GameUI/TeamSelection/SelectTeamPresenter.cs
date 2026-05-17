@@ -11,7 +11,7 @@ namespace Assets.Scripts.Dodgeball.Presenter.GameUI.TeamSelection
 	{
 		private readonly UIDocument _document;
 
-		private List<PlayerTeamSelectionPresenter> _playerSelectPresenters = new List<PlayerTeamSelectionPresenter>();
+		private List<PlayerTeamSelectionPresenter> _playerSelectPresenters = new();
 
 		private Button _redButton;
 		private Button _blueButton;
@@ -69,7 +69,6 @@ namespace Assets.Scripts.Dodgeball.Presenter.GameUI.TeamSelection
 		#region UI_eventcallbacks
 		void readyButton_Clicked()
 		{
-
 			Model.SetReady(LocalPlayerId, true);
 		}
 		void unreadyButton_Clicked()
@@ -84,7 +83,6 @@ namespace Assets.Scripts.Dodgeball.Presenter.GameUI.TeamSelection
 		{
 			Model.SetSelection(LocalPlayerId, PlayerColor.Red);
 		}
-
 		#endregion
 
 		private void Model_ReadinessChanged(object sender, EventArgs e)

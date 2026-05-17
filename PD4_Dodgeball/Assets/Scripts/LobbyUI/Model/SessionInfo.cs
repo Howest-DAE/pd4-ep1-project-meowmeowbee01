@@ -25,17 +25,17 @@ namespace Assets.Scripts.LobbyUI.Model
 		private LobbyEventCallbacks _callbacks;
 		private float _heartbeatTimer = _HEARTBEAT_INTERVAL;
 
-		private int _playerCount;
-		public int PlayerCount
-		{
-			get => _playerCount;
-			set
-			{
-				if (_playerCount == value) return;
-				_playerCount = value;
-				OnPropertyChanged();
-			}
-		}
+		//private int _playerCount;
+		//public int PlayerCount
+		//{
+		//	get => _playerCount;
+		//	set
+		//	{
+		//		if (_playerCount == value) return;
+		//		_playerCount = value;
+		//		OnPropertyChanged();
+		//	}
+		//}
 
 		public SessionInfo(Lobby lobby, string playerId, RelayServerData relayServerData)
 		{
@@ -74,7 +74,7 @@ namespace Assets.Scripts.LobbyUI.Model
 		private async Task UpdateLobbyInfoAsync()
 		{
 			Lobby = await LobbyService.Instance.GetLobbyAsync(Lobby.Id);
-			PlayerCount = Lobby.Players.Count;
+			//PlayerCount = Lobby.Players.Count;
 		}
 
 		public async Task UpdateSessionAsync()

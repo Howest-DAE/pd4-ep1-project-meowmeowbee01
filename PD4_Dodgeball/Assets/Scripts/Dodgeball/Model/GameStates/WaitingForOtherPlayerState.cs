@@ -1,4 +1,4 @@
-using Assets.Scripts.LobbyUI;
+using Unity.Netcode;
 
 namespace Assets.Scripts.Dodgeball.Model.GameStates
 {
@@ -12,12 +12,13 @@ namespace Assets.Scripts.Dodgeball.Model.GameStates
 		//When enough players are joined (2), go to the next state
 		//FSM.TransitionTo(FSM.SelectTeamState);
 
-		//todo: use events instead of checking in the update loop?
+		//todo: use events instead of checking in the update loop
+		//NetworkManager.Singleton.OnClientConnectedCallback
 
 		public override void Update(float deltaTime)
 		{
 			base.Update(deltaTime);
-			if (LobbyManager.Instance.ActiveSession.PlayerCount >= 2)
+			if (NetworkManager.Singleton.ConnectedClients.Count >= 2)
 			{
 				FSM.TransitionTo(FSM.SelectTeamState);
 			}

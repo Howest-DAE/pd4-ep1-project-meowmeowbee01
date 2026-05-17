@@ -1,5 +1,6 @@
 using Assets.Scripts.LobbyUI.Model;
 using Assets.Scripts.MVP.Presenter;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,11 +18,11 @@ namespace Assets.Scripts.LobbyUI.Presenter
 
 			_lobbyNameField.RegisterValueChangedCallback(NameValueChanged);
 
-			_createButton.clicked += async () => CreateButton_clicked();
+			_createButton.clicked += async () => await CreateButton_clicked();
 
 		}
 
-		private async void CreateButton_clicked()
+		private async Task CreateButton_clicked()
 		{
 			Debug.Log($"Creating lobby {Model.LobbyName}");
 			await Model.CreateLobby();
