@@ -1,5 +1,6 @@
 using Assets.Scripts.Dodgeball.Model;
 using Assets.Scripts.Dodgeball.Model.TeamSelection;
+using Assets.Scripts.Dodgeball.Network;
 using Assets.Scripts.MVP.Presenter;
 using System;
 using System.Collections.Generic;
@@ -20,12 +21,14 @@ namespace Assets.Scripts.Dodgeball.Presenter.GameUI.TeamSelection
 
 		private Label _exceededLabel;
 
-		public ulong LocalPlayerId => 0;  //TESTING: local PlayerId = 0
+		private SelectTeamSync _sync;
 
-		public SelectTeamPresenter(UIDocument document, SelectTeamModel model)
+		public SelectTeamPresenter(UIDocument document, SelectTeamModel model, SelectTeamSync sync)
 		{
 			Model = model;
 			_document = document;
+			_sync = sync;
+			_sync.Initialize(model);
 
 			VisualElement player1Row = _document.rootVisualElement.Q<VisualElement>("TeamRow_Player1");
 			VisualElement player2Row = _document.rootVisualElement.Q<VisualElement>("TeamRow_Player2");
@@ -69,36 +72,30 @@ namespace Assets.Scripts.Dodgeball.Presenter.GameUI.TeamSelection
 		#region UI_eventcallbacks
 		void readyButton_Clicked()
 		{
-			Model.SetReady(LocalPlayerId, true);
+			_sync.SetReadyRpc(_sync.NetworkManager.LocalClientId, true);
 		}
 		void unreadyButton_Clicked()
 		{
-			Model.SetReady(LocalPlayerId, false);
+			_sync.SetReadyRpc(_sync.NetworkManager.LocalClientId, false);
 		}
 		private void blueButton_clicked()
 		{
-			Model.SetSelection(LocalPlayerId, PlayerColor.Blue);
+			_sync.SetColorRpc(_sync.NetworkManager.LocalClientId, PlayerColor.Blue);
 		}
 		private void redButton_clicked()
 		{
-			Model.SetSelection(LocalPlayerId, PlayerColor.Red);
+			_sync.SetColorRpc(_sync.NetworkManager.LocalClientId, PlayerColor.Red);
 		}
 		#endregion
 
 		private void Model_ReadinessChanged(object sender, EventArgs e)
 		{
 			UpdateReadyButtonVisibility();
-
 		}
 
 		private void Model_SelectionChanged(object sender, PlayerIdEventArgs e)
 		{
 			UpdateReadyButtonVisibility();
-			if (e.PlayerId == 0) // currentplayerID
-			{
-				//TESTING: when current player sets, automatically set the opposing player
-				AutoSetOpposingPlayer();
-			}
 		}
 
 		protected override void OnModelPropertyChanged(string propertyName)
@@ -113,7 +110,7 @@ namespace Assets.Scripts.Dodgeball.Presenter.GameUI.TeamSelection
 
 		void UpdateReadyButtonVisibility()
 		{
-			bool isReady = Model.IsReady(LocalPlayerId);
+			bool isReady = Model.IsReady(_sync.NetworkManager.LocalClientId);
 			if (isReady)
 			{
 				//enable unreadybutton
@@ -131,20 +128,5 @@ namespace Assets.Scripts.Dodgeball.Presenter.GameUI.TeamSelection
 		{
 			_exceededLabel.style.display = Model.ExceedingTeamLimit ? DisplayStyle.Flex : DisplayStyle.None;
 		}
-
-		//TESTING: Fake set opposing player to the opposite of the current player
-		void AutoSetOpposingPlayer()
-		{
-			PlayerColor oppositeColor = Model.CurrentPlayerColor == PlayerColor.Blue ? PlayerColor.Red : PlayerColor.Blue;
-
-			//Fake set second player to opposing color
-			ulong secondPlayerId = 1;
-
-			Model.SetReady(secondPlayerId, false);
-			Model.SetSelection(secondPlayerId, oppositeColor);
-			Model.SetReady(secondPlayerId, true);
-
-		}
-
 	}
 }

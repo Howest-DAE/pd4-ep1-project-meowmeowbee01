@@ -25,18 +25,15 @@ namespace Assets.Scripts.Dodgeball.Presenter
 			_matchPresenter.StartMatch(e.Value);
 		}
 
-		// Start is called once before the first execution of Update after the MonoBehaviour is created
 		protected override void Start()
 		{
 			base.Start();
 		}
 
-		// Update is called once per frame
 		protected override void Update()
 		{
 			Model.Update(Time.deltaTime);
 			base.Update();
-
 		}
 
 		protected override void OnModelPropertyChanged(string propertyName)

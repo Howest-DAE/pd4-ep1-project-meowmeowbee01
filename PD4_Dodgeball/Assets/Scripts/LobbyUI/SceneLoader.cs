@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,7 +18,7 @@ namespace Assets.Scripts.LobbyUI
 
 		private void Instance_SessionJoined(object sender, System.EventArgs e)
 		{
-			SceneManager.LoadScene("GameplayScene");
+			if (NetworkManager.Singleton.IsHost) NetworkManager.Singleton.SceneManager.LoadScene("gameplayScene", LoadSceneMode.Single);
 		}
 	}
 }

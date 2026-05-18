@@ -1,5 +1,4 @@
 using Assets.Scripts.Dodgeball.Model;
-using Assets.Scripts.Dodgeball.Presenter.GameUI.TeamSelection;
 using Assets.Scripts.MVP.Presenter;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -23,16 +22,12 @@ namespace Assets.Scripts.Dodgeball.Presenter.GameUI
 			_matchPlayingUI,
 			_gameOverUI;
 
-		private SelectTeamPresenter _teamSelectionUI;
-
 		protected override void Start()
 		{
 			Model = _gamePresenter.Model;
 			SetCurrentGameStateUI();
 			base.Start();
 		}
-
-
 
 		protected override void OnModelPropertyChanged(string propertyName)
 		{
