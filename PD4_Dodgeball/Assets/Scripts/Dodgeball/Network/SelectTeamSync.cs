@@ -13,8 +13,8 @@ namespace Assets.Scripts.Dodgeball.Network
 		NetworkVariable<PlayerColor> Player2Color { get; set; }
 		NetworkVariable<bool> Player2IsReady { get; set; }
 
-		private ulong player1Id = 0;
-		private ulong player2Id = 1;
+		private ulong player1Id;
+		private ulong player2Id;
 
 		private void Awake()
 		{
@@ -33,11 +33,8 @@ namespace Assets.Scripts.Dodgeball.Network
 		{
 			Model = model;
 
-			//	ulong localId = NetworkManager.LocalClientId;
-			//	ulong otherId = NetworkManager.ConnectedClientsIds.First(id => id != localId);
-
-			//	player1Id = NetworkManager.IsHost ? localId : otherId;
-			//	player2Id = NetworkManager.IsHost ? otherId : localId;
+			player1Id = Model.Player1Selection.PlayerId;
+			player2Id = Model.Player2Selection.PlayerId;
 
 			Model.SetSelection(player1Id, Player1Color.Value);
 			Model.SetReady(player1Id, Player1IsReady.Value);

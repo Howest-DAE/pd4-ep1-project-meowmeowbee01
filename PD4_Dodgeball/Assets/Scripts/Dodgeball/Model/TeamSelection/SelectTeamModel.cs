@@ -12,7 +12,7 @@ namespace Assets.Scripts.Dodgeball.Model.TeamSelection
 	/// </summary>
 	public class SelectTeamModel : ModelBase
 	{
-		// EVENTS 
+		// EVENTS
 		public event EventHandler<PlayerIdEventArgs> SelectionChanged;
 		public event EventHandler ReadinessChanged;
 
@@ -47,11 +47,10 @@ namespace Assets.Scripts.Dodgeball.Model.TeamSelection
 		private PlayerTeamSelectionModel _player2Selection;
 		List<PlayerTeamSelectionModel> _teamSelectionModels;
 
-		public SelectTeamModel()
+		public SelectTeamModel(ulong player1Id, ulong player2Id)
 		{
-			_player1Selection = new PlayerTeamSelectionModel(0, isCurrentPlayer: true); //TESTING: player 1 = current player
-			_player2Selection = new PlayerTeamSelectionModel(1, isCurrentPlayer: false);
-			//Add 2 red and 2 blue tiles by default
+			_player1Selection = new(player1Id);
+			_player2Selection = new(player2Id);
 			_teamSelectionModels = new List<PlayerTeamSelectionModel>() { _player1Selection, _player2Selection };
 		}
 
@@ -65,11 +64,15 @@ namespace Assets.Scripts.Dodgeball.Model.TeamSelection
 			var playerSelectionModel = _teamSelectionModels.FirstOrDefault(tsm => tsm.PlayerId == playerId);
 			Assert.IsNotNull(playerSelectionModel);
 
-			//don't allow swapping when readys
+			//don't allow swapping when ready
 			if (playerSelectionModel.IsReady) return false;
 
 			//update selection
 			playerSelectionModel.SelectedColor = color;
+
+			ExceedingTeamLimit = _teamSelectionModels
+				.GroupBy(t => t.SelectedColor)
+				.Any(g => g.Count() > _maxPlayersPerTeam);
 
 			OnSelectionChanged(playerId);
 
@@ -84,13 +87,9 @@ namespace Assets.Scripts.Dodgeball.Model.TeamSelection
 		public void SetReady(ulong playerId, bool ready)
 		{
 			var model = _teamSelectionModels.FirstOrDefault(tsm => tsm.PlayerId == playerId);
-			if (model == null) return;
+			if (model == null || ExceedingTeamLimit) return;
 
 			model.IsReady = ready;
-
-			ExceedingTeamLimit = _teamSelectionModels.Where(t => t.IsReady)
-				.GroupBy(t => t.SelectedColor)
-				.Any(g => g.Count() > _maxPlayersPerTeam);
 
 			OnReadinessChanged();
 		}
@@ -104,7 +103,5 @@ namespace Assets.Scripts.Dodgeball.Model.TeamSelection
 		{
 			SelectionChanged?.Invoke(this, new PlayerIdEventArgs(playerId));
 		}
-
-
 	}
 }

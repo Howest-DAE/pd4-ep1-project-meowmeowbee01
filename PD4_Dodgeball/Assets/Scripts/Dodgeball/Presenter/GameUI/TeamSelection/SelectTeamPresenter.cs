@@ -25,10 +25,10 @@ namespace Assets.Scripts.Dodgeball.Presenter.GameUI.TeamSelection
 
 		public SelectTeamPresenter(UIDocument document, SelectTeamModel model, SelectTeamSync sync)
 		{
+			sync.Initialize(model);
+			_sync = sync;
 			Model = model;
 			_document = document;
-			_sync = sync;
-			_sync.Initialize(model);
 
 			VisualElement player1Row = _document.rootVisualElement.Q<VisualElement>("TeamRow_Player1");
 			VisualElement player2Row = _document.rootVisualElement.Q<VisualElement>("TeamRow_Player2");
