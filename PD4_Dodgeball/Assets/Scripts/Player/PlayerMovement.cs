@@ -30,7 +30,7 @@ namespace Assets.Scripts.Player
 
 		private Transform _cameraTransform;
 
-		public IPlayerMoveStrategy MoveStrategy
+		public PlayerInputMoveStrategy MoveStrategy
 		{
 			get => _moveStrategy;
 			set
@@ -69,7 +69,7 @@ namespace Assets.Scripts.Player
 
 
 		private bool _isCrouched;
-		private IPlayerMoveStrategy _moveStrategy;
+		private PlayerInputMoveStrategy _moveStrategy;
 
 		void Start()
 		{
@@ -77,17 +77,13 @@ namespace Assets.Scripts.Player
 			_cameraTransform = Camera.main.transform;
 		}
 
-
-
-
-		// Update is called once per frame
 		void Update()
 		{
 			// Move
-			Vector3 movement = MoveStrategy.CalculateMovement();
+			Vector3 movement = MoveStrategy?.CalculateMovement() ?? Vector3.zero;
 
 			// Look
-			Vector3 lookDirection = MoveStrategy.CalculateLookDirection();
+			Vector3 lookDirection = MoveStrategy?.CalculateLookDirection() ?? Vector3.zero;
 
 			//horizontal
 			Vector3 horizontalLook = lookDirection;
@@ -104,8 +100,6 @@ namespace Assets.Scripts.Player
 			}
 
 			_characterControl.Move(movement * _moveSpeed * Time.deltaTime);
-
-
 		}
 
 
@@ -125,8 +119,6 @@ namespace Assets.Scripts.Player
 			}
 
 		}
-
-
 
 		void ApplyGravity()
 		{

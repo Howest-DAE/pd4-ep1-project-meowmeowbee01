@@ -5,6 +5,7 @@ using Assets.Scripts.MVP.Presenter;
 using Assets.Scripts.Player;
 using Assets.Scripts.Player.Strategies;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Assets.Scripts.Dodgeball.Presenter
@@ -30,7 +31,7 @@ namespace Assets.Scripts.Dodgeball.Presenter
 		//Properties
 		public PlayerColor Color => Model.Color;
 		public ArenaPresenter ArenaPresenter { get; set; }
-		public IBallThrowingStrategy ThrowStrategy { get; set; }
+		public InputBallThrowStrategy ThrowStrategy { get; set; }
 
 
 		//TODO: replace with Networked PlayerId
@@ -49,7 +50,7 @@ namespace Assets.Scripts.Dodgeball.Presenter
 			Model = ArenaPresenter.Model.GetPlayer(PlayerId);
 			ArenaPresenter.AddPlayerPresenter(this);
 
-			SetControlledByPlayer(PlayerId == 0); // TODO: check for the local player id
+			SetControlledByPlayer(PlayerId == NetworkManager.Singleton.LocalClientId); // DONE: check for the local player id
 
 			if (_displayText != null) _displayText.text = PlayFabPlayer.Instance.DisplayName;
 
@@ -96,12 +97,6 @@ namespace Assets.Scripts.Dodgeball.Presenter
 				PlayerInputActions inputActions = presenter.InputActionConfig.InputActions;
 				GetComponent<PlayerMovement>().MoveStrategy = new PlayerInputMoveStrategy(transform, Camera.main.transform, inputActions, presenter.InputActionConfig.RotationSettings);
 				GetComponent<PlayerThrow>().ThrowingStrategy = new InputBallThrowStrategy(inputActions);
-			}
-			else
-			{
-				AITargetSelector targetSelector = new AITargetSelector(this);
-				GetComponent<PlayerMovement>().MoveStrategy = new PlayerAIMoveStrategy(ArenaPresenter, this, targetSelector, _jumpObstaclesMask);
-				GetComponent<PlayerThrow>().ThrowingStrategy = new AIBallThrowingStrategy(targetSelector, this);
 			}
 			GetComponent<PlayerCameraAttach>().enabled = controlled;
 

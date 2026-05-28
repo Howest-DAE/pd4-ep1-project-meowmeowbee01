@@ -18,9 +18,9 @@ namespace Assets.Scripts.Player
 		private float _throwSpeed = 10f;
 
 		private PlayerPresenter _playerPresenter;
-		private IBallThrowingStrategy _throwingStrategy;
+		private InputBallThrowStrategy _throwingStrategy;
 
-		public IBallThrowingStrategy ThrowingStrategy
+		public InputBallThrowStrategy ThrowingStrategy
 		{
 			get => _throwingStrategy;
 			set

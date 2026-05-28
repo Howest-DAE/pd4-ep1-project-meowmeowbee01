@@ -9,7 +9,7 @@ namespace Assets.Scripts.Player.Strategies
 		public Transform TargetPlayer { get; }
 		public Transform TargetBall { get; }
 	}
-	public class InputBallThrowStrategy : IBallThrowingStrategy
+	public class InputBallThrowStrategy
 	{
 		public event EventHandler GrabBallRequested;
 		public event EventHandler ThrowBallRequested;

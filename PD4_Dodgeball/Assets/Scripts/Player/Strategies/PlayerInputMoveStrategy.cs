@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Player.Strategies
 {
-	public class PlayerInputMoveStrategy : IPlayerMoveStrategy
+	public class PlayerInputMoveStrategy
 	{
 		private readonly Transform _playerTransform;
 		private readonly Transform _cameraTransform;
