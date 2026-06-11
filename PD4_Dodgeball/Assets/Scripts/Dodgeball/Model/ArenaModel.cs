@@ -10,8 +10,8 @@ namespace Assets.Scripts.Dodgeball.Model
 	/// </summary>
 	public class ArenaModel : ModelBase
 	{
-		private List<PlayerModel> _players = new List<PlayerModel>();
-		private List<BallModel> _balls = new List<BallModel>();
+		private List<PlayerModel> _players = new();
+		private List<BallModel> _balls = new();
 
 		public void AddPlayer(PlayerModel player)
 		{
@@ -24,8 +24,7 @@ namespace Assets.Scripts.Dodgeball.Model
 
 		public PlayerModel GetPlayer(ulong playerId)
 		{
-			return _players.FirstOrDefault(p => p.PlayerId == playerId);
+			return _players.First(p => p.PlayerId == playerId);
 		}
-
 	}
 }
