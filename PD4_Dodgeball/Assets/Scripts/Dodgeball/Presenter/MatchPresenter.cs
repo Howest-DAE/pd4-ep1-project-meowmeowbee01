@@ -1,6 +1,7 @@
 
 using Assets.Scripts.Dodgeball.Model;
 using Assets.Scripts.MVP.Presenter;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Assets.Scripts.Dodgeball.Presenter
@@ -18,8 +19,11 @@ namespace Assets.Scripts.Dodgeball.Presenter
 			//Spawn ball
 			_arena.SpawnBall(0);
 
-			_arena.SpawnPlayer(model.PlayerRed.PlayerId);
-			_arena.SpawnPlayer(model.PlayerBlue.PlayerId);
+			if (NetworkManager.Singleton.IsServer)
+			{
+				_arena.SpawnPlayer(model.PlayerRed.PlayerId);
+				_arena.SpawnPlayer(model.PlayerBlue.PlayerId);
+			}
 		}
 
 	}

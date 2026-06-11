@@ -5,11 +5,13 @@ using Assets.Scripts.MVP.Presenter;
 using Assets.Scripts.Player;
 using Assets.Scripts.Player.Strategies;
 using TMPro;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Assets.Scripts.Dodgeball.Presenter
 {
+	[RequireComponent(typeof(PlayerThrow))]
+	[RequireComponent(typeof(PlayerMovement))]
+	[RequireComponent(typeof(PlayerCameraAttach))]
 	public class PlayerPresenter : PresenterMonobehaviour<PlayerModel>
 	{
 		//Inspector fields
@@ -34,24 +36,17 @@ namespace Assets.Scripts.Dodgeball.Presenter
 		public InputBallThrowStrategy ThrowStrategy { get; set; }
 
 
-		//TODO: replace with Networked PlayerId
-		public ulong PlayerId { get; set; }
+		//DONE: replace with Networked PlayerId
+		public ulong PlayerId => Model.PlayerId;
 
 		protected override void Awake()
 		{
 			SetControlledByPlayer(false);
 			base.Awake();
 		}
-		// Start is called once before the first execution of Update after the MonoBehaviour is created
+
 		protected override void Start()
 		{
-			//Find Model from MatchModel
-			ArenaPresenter = FindAnyObjectByType<ArenaPresenter>();
-			Model = ArenaPresenter.Model.GetPlayer(PlayerId);
-			ArenaPresenter.AddPlayerPresenter(this);
-
-			SetControlledByPlayer(PlayerId == NetworkManager.Singleton.LocalClientId); // DONE: check for the local player id
-
 			if (_displayText != null) _displayText.text = PlayFabPlayer.Instance.DisplayName;
 
 			base.Start();
