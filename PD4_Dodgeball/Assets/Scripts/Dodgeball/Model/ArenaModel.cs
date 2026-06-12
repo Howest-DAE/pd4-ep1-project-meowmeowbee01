@@ -24,7 +24,7 @@ namespace Assets.Scripts.Dodgeball.Model
 
 		public PlayerModel GetPlayer(ulong playerId)
 		{
-			return _players.First(p => p.PlayerId == playerId);
+			return _players.FirstOrDefault(p => p.PlayerId == playerId);
 		}
 	}
 }

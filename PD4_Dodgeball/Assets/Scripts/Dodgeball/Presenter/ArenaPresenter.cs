@@ -50,12 +50,13 @@ namespace Assets.Scripts.Dodgeball.Presenter
 
 		public void SpawnBall(int spawnLocationIndex)
 		{
+			if (!NetworkManager.Singleton.IsHost) return;
 			if (spawnLocationIndex == -1)
 			{
 				spawnLocationIndex = Random.Range(0, _ballSpawnLocations.Count);
 			}
 			Transform spawnLocation = _ballSpawnLocations[spawnLocationIndex];
-			BallPresenter ballPresenter = Instantiate(_ballPrefab, spawnLocation.position, Quaternion.identity).GetComponent<BallPresenter>();
+			Instantiate(_ballPrefab, spawnLocation.position, Quaternion.identity).GetComponent<NetworkObject>().Spawn();
 		}
 
 		public void SpawnPlayer(ulong playerId)

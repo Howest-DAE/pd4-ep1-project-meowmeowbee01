@@ -904,12 +904,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7190485751858472876}
   - component: {fileID: 3275139367582947991}
+  - component: {fileID: -8847165548950358433}
   - component: {fileID: 111426465189879901}
   - component: {fileID: 7374044079761978968}
   - component: {fileID: 568943300865528846}
   - component: {fileID: 2906567808595363649}
   - component: {fileID: 5228565583815207071}
-  - component: {fileID: -8847165548950358433}
   - component: {fileID: 8367684909929664189}
   - component: {fileID: 7135626355214729300}
   m_Layer: 6
@@ -963,6 +963,31 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &-8847165548950358433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5285515889829522760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 735149815
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &111426465189879901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -975,6 +1000,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ade93ce01bd41024b88a3fdc6b7d060a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  ShowTopMostFoldoutHeaderGroup: 1
   _characterControl: {fileID: 3275139367582947991}
   _moveSpeed: 7
   _crouchSpeedModifier: 0.3
@@ -1010,7 +1036,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _aimTransform: {fileID: 2406997265512393155}
-  _grabPivot: {fileID: 1445911844153554177}
+  _grabPivot: {fileID: 3573129057031308434}
   _throwSpeed: 20
 --- !u!114 &2906567808595363649
 MonoBehaviour:
@@ -1050,31 +1076,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraTarget: {fileID: 1847722895481103521}
   _cameraLookat: {fileID: 2041136851014421866}
---- !u!114 &-8847165548950358433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5285515889829522760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 735149815
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  DeferredDespawnTick: 0
-  Ownership: 1
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
-  SyncOwnerTransformWhenParented: 1
-  AllowOwnerToParent: 0
 --- !u!114 &8367684909929664189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1233,6 +1234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1445911844153554177}
+  - component: {fileID: 3573129057031308434}
   m_Layer: 6
   m_Name: BallAnchor
   m_TagString: Untagged
@@ -1255,6 +1257,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2232844767021934725}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3573129057031308434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6972446350791477766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de26c65b4b2c3934f9b5dc883665e343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Dodgeball.Network.FollowTransform
 --- !u!1 &7327275500154462876
 GameObject:
   m_ObjectHideFlags: 0

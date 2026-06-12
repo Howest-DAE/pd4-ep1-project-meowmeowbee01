@@ -1,7 +1,6 @@
 using Assets.Scripts.MVP.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 
 namespace Assets.Scripts.Dodgeball.Model
@@ -36,7 +35,7 @@ namespace Assets.Scripts.Dodgeball.Model
 		public BallModel GrabbedBall
 		{
 			get => _grabbedBall;
-			private set
+			set
 			{
 				if (_grabbedBall == value)
 					return;
@@ -45,7 +44,7 @@ namespace Assets.Scripts.Dodgeball.Model
 			}
 		}
 
-		private List<BallModel> _ballsInGrabRange = new List<BallModel>();
+		public List<BallModel> BallsInGrabRange = new();
 		private BallModel _grabbedBall;
 		private PlayerColor _color;
 
@@ -58,49 +57,14 @@ namespace Assets.Scripts.Dodgeball.Model
 
 		public void SetBallInGrabRange(BallModel ball, bool inRange)
 		{
-			if (inRange && !_ballsInGrabRange.Contains(ball))
+			if (inRange && !BallsInGrabRange.Contains(ball))
 			{
-				_ballsInGrabRange.Add(ball);
+				BallsInGrabRange.Add(ball);
 			}
-			else if (!inRange && _ballsInGrabRange.Contains(ball))
+			else if (!inRange && BallsInGrabRange.Contains(ball))
 			{
-				_ballsInGrabRange.Remove(ball);
+				BallsInGrabRange.Remove(ball);
 			}
-		}
-
-		public BallModel TryGrabBall()
-		{
-
-			if (_grabbedBall != null) return null; // only allow to grab 1 ball
-			if (!_ballsInGrabRange.Any(b => !b.IsPlayerBall)) return null;
-
-
-			GrabbedBall = _ballsInGrabRange.First(b => !b.IsPlayerBall);
-			_ballsInGrabRange.Remove(GrabbedBall);
-
-			GrabbedBall.IsGrabbed = true;
-			GrabbedBall.LastGrabbedPlayerColor = Color;
-			GrabbedBall.IsPlayerBall = true;
-
-			return GrabbedBall;
-		}
-
-		public bool TryThrowBall(Vector3 velocity)
-		{
-			if (GrabbedBall != null)
-			{
-				BallModel ball = GrabbedBall;
-				ReleaseBall();
-				OnThrowBall(ball, velocity);
-				return true;
-			}
-			return false;
-		}
-		public void ReleaseBall()
-		{
-			if (_grabbedBall == null) return;
-			_grabbedBall.IsGrabbed = false;
-			GrabbedBall = null;
 		}
 
 		public virtual void OnThrowBall(BallModel ball, Vector3 velocity)

@@ -13,8 +13,8 @@ namespace Assets.Scripts.Dodgeball.Presenter
 
 		public void StartMatch(MatchModel model)
 		{
+			model.StartMatch(_arena.Model);
 			Model = model;
-			Model.StartMatch(_arena.Model);
 
 			//Spawn ball
 			_arena.SpawnBall(0);

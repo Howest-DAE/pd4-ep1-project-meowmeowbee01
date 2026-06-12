@@ -1,4 +1,5 @@
 using Assets.Scripts.Dodgeball.Model;
+using Assets.Scripts.Dodgeball.Network;
 using Assets.Scripts.Dodgeball.Presenter;
 using Assets.Scripts.MVP.Presenter;
 using Assets.Scripts.Player.Strategies;
@@ -6,18 +7,21 @@ using UnityEngine;
 
 namespace Assets.Scripts.Player
 {
+	[RequireComponent(typeof(PlayerSync))]
 	public class PlayerThrow : PresenterMonobehaviour<PlayerModel>
 	{
 		[SerializeField]
 		private Transform _aimTransform;
 
 		[SerializeField]
-		private Transform _grabPivot;
+		private FollowTransform _grabPivot;
 
 		[SerializeField]
 		private float _throwSpeed = 10f;
 
 		private PlayerPresenter _playerPresenter;
+		private ArenaPresenter _arenaPresenter;
+		private PlayerSync _sync;
 		private InputBallThrowStrategy _throwingStrategy;
 
 		public InputBallThrowStrategy ThrowingStrategy
@@ -48,15 +52,13 @@ namespace Assets.Scripts.Player
 
 		private void _throwingStrategy_GrabBallRequested(object sender, System.EventArgs e)
 		{
-			Model.TryGrabBall();
+			_sync.RequestGrabRpc();
 		}
 
 		private void _throwingStrategy_ThrowBallRequested(object sender, System.EventArgs e)
 		{
-
-			Model.TryThrowBall(CalculateAimVelocity().ToNumericsVector());
+			_sync.RequestThrowRpc(CalculateAimVelocity());
 		}
-
 
 		public bool HasBall => Model?.GrabbedBall != null;
 
@@ -64,8 +66,10 @@ namespace Assets.Scripts.Player
 		{
 			base.Awake();
 			_playerPresenter = GetComponent<PlayerPresenter>();
-
+			_arenaPresenter = FindAnyObjectByType<ArenaPresenter>();
+			_sync = GetComponent<PlayerSync>();
 		}
+
 		protected override void Start()
 		{
 			base.Start();
@@ -99,8 +103,8 @@ namespace Assets.Scripts.Player
 		private void SetGrabbedBall()
 		{
 			if (Model.GrabbedBall == null) return;
-			BallPresenter presenter = _playerPresenter.ArenaPresenter.GetBallPresenter(Model.GrabbedBall);
-			presenter.transform.SetParent(_grabPivot);
+			var presenter = _playerPresenter.ArenaPresenter.GetBallPresenter(Model.GrabbedBall);
+			_grabPivot.AddChild(presenter.transform);
 			presenter.transform.localPosition = Vector3.zero;
 
 		}
@@ -108,9 +112,9 @@ namespace Assets.Scripts.Player
 		//Gets invoked when the ball needs to be thrown
 		private void Model_BallThrown(object sender, ThrowBallEventArgs e)
 		{
-			var ballPresenter = _playerPresenter.ArenaPresenter.GetBallPresenter(e.Ball);
-			ballPresenter.transform.parent = null;
-			ballPresenter.Throw(e.Velocity.ToUnityVector());
+			var presenter = _playerPresenter.ArenaPresenter.GetBallPresenter(e.Ball);
+			_grabPivot.RemoveChild(presenter.transform);
+			presenter.Throw(e.Velocity.ToUnityVector());
 		}
 		public Vector3 CalculateAimVelocity()
 		{
