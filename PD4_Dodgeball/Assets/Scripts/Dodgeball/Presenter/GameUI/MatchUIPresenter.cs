@@ -36,6 +36,8 @@ namespace Assets.Scripts.Dodgeball.Presenter.GameUI
 			UpdateScoreRed();
 			UpdateScoreBlue();
 			UpdateTimerText();
+
+			BallHandler.Instance.BallPurchaseSuccess += async (sender, e) => await UpdateGold();
 		}
 
 		protected override async void OnModelPropertyChanged(string propertyName)
@@ -59,7 +61,6 @@ namespace Assets.Scripts.Dodgeball.Presenter.GameUI
 
 		void UpdateScoreRed()
 		{
-
 			_sync.RequestUpdateScoreRedRpc(Model.ScoreRed);
 
 			_redScoreLabel.text = _sync.ScoreRed.Value.ToString();
@@ -68,17 +69,17 @@ namespace Assets.Scripts.Dodgeball.Presenter.GameUI
 		private async Task IncreaseGold()
 		{
 			GoldHandler.IncreaseGold(15);
-			await UpdateGold(15);
+			await UpdateGold();
 		}
 
-		private async Task UpdateGold(int offset = 0)
+		private async Task UpdateGold()
 		{
-			_goldLabel.text = $"Gold: {((await GoldHandler.GetGold()) + offset)?.ToString() ?? string.Empty}";
+			await Task.Delay(2000);
+			_goldLabel.text = $"Gold: {(await GoldHandler.GetGold())?.ToString() ?? string.Empty}";
 		}
 
 		void UpdateScoreBlue()
 		{
-
 			_sync.RequestUpdateScoreBlueRpc(Model.ScoreBlue);
 
 			_blueScoreLabel.text = _sync.ScoreBlue.Value.ToString();

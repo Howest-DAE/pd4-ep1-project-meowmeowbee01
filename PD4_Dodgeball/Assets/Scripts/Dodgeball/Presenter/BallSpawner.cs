@@ -1,12 +1,9 @@
-using Assets.Scripts.Dodgeball.Model;
 using UnityEngine;
 
 namespace Assets.Scripts.Dodgeball.Presenter
 {
 	public class BallSpawner : MonoBehaviour //No model to present
 	{
-
-
 		//Properties
 		public Transform SpawnLocation => _spawnLocation;
 		public int SpawnLocationIndex { get; set; }
@@ -21,6 +18,12 @@ namespace Assets.Scripts.Dodgeball.Presenter
 		private void Awake()
 		{
 			_arena = FindAnyObjectByType<ArenaPresenter>();
+			BallHandler.Instance.BallPurchaseSuccess += BallPurchaseSuccess;
+		}
+
+		private void BallPurchaseSuccess(object sender, System.EventArgs e)
+		{
+			if (BallHandler.Instance.CurrentBallSpawner == this) SpawnBall();
 		}
 
 		public void SpawnBall()
@@ -33,8 +36,7 @@ namespace Assets.Scripts.Dodgeball.Presenter
 		{
 			if (other.CompareTag("Player"))
 			{
-				PlayerModel playerModel = other.GetComponent<PlayerPresenter>()?.Model;
-				SpawnBall();
+				BallHandler.Instance.BuyBall(this);
 			}
 		}
 	}
