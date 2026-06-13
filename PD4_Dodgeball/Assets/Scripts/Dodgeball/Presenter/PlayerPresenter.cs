@@ -5,6 +5,7 @@ using Assets.Scripts.MVP.Presenter;
 using Assets.Scripts.Player;
 using Assets.Scripts.Player.Strategies;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Assets.Scripts.Dodgeball.Presenter
@@ -47,7 +48,7 @@ namespace Assets.Scripts.Dodgeball.Presenter
 
 		protected override void Start()
 		{
-			if (_displayText != null) _displayText.text = PlayFabPlayer.Instance.DisplayName;
+			if (_displayText != null && NetworkManager.Singleton.LocalClientId == Model.PlayerId) _displayText.text = PlayFabPlayer.Instance.DisplayName;
 
 			base.Start();
 		}
