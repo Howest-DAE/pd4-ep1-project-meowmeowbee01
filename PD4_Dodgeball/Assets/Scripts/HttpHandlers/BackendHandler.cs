@@ -62,5 +62,31 @@ namespace Assets.Scripts.HttpHandlers
 					break;
 			}
 		}
+
+		public static async Task<MatchIdDto> PostMatchAsync(MatchPostDto dto)
+		{
+			var request = UnityWebRequest.Post($"{_apiBaseUrl}/Matches", JsonConvert.SerializeObject(dto), "application/json");
+			await request.SendWebRequest();
+			switch (request.result)
+			{
+				case UnityWebRequest.Result.InProgress:
+					break;
+				case UnityWebRequest.Result.Success:
+					Debug.Log($"Successfully posted the match to the server");
+					return JsonConvert.DeserializeObject<MatchIdDto>(request.downloadHandler.text);
+				case UnityWebRequest.Result.ConnectionError:
+					Debug.LogError($"failed to connect to server");
+					break;
+				case UnityWebRequest.Result.ProtocolError:
+					Debug.LogError($"server responded with {request.responseCode}");
+					break;
+				case UnityWebRequest.Result.DataProcessingError:
+					Debug.LogError($"failed process the response from the server");
+					break;
+				default:
+					break;
+			}
+			return null;
+		}
 	}
 }

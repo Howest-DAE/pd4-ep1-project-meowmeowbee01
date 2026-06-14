@@ -9,6 +9,8 @@ namespace Assets.Scripts.Dodgeball.Model
 	/// </summary>
 	public class MatchModel : ModelBase
 	{
+		public int Id { get; set; }
+
 		public event EventHandler MatchEnded; //Gets invoked when time runs out
 
 		public int SecondsLeft

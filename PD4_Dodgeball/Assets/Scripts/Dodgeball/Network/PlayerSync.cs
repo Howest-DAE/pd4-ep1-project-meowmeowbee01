@@ -36,7 +36,11 @@ namespace Assets.Scripts.Dodgeball.Network
 				Model.GrabbedBall = _arenaPresenter.GetBallPresenter(value)?.Model;
 			};
 
-			PlayFabId.OnValueChanged += async (old, value) => _presenter.DisplayName((await BackendHandler.GetPlayerAsync(value.ToString())).DisplayName);
+			PlayFabId.OnValueChanged += async (old, value) =>
+			{
+				Model.PlayFabId = value.ToString();
+				_presenter.DisplayName((await BackendHandler.GetPlayerAsync(value.ToString())).DisplayName);
+			};
 		}
 
 		public override async void OnNetworkSpawn()
@@ -59,7 +63,11 @@ namespace Assets.Scripts.Dodgeball.Network
 			Model.PropertyChanged += Model_PropertyChanged;
 
 			if (IsOwner) PlayFabId.Value = PlayFabPlayer.Instance.PlayfabId;
-			if (!IsServer) _presenter.DisplayName((await BackendHandler.GetPlayerAsync(PlayFabId.Value.ToString())).DisplayName);
+			if (!IsServer)
+			{
+				Model.PlayFabId = PlayFabId.Value.ToString();
+				_presenter.DisplayName((await BackendHandler.GetPlayerAsync(PlayFabId.Value.ToString())).DisplayName);
+			}
 		}
 
 		private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

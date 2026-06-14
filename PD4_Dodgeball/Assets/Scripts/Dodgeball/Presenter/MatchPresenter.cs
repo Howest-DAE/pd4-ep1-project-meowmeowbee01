@@ -1,6 +1,10 @@
 
+using Assets.PlayFab.Scripts.LoginSystem;
 using Assets.Scripts.Dodgeball.Model;
+using Assets.Scripts.Dodgeball.Model.Dtos;
+using Assets.Scripts.HttpHandlers;
 using Assets.Scripts.MVP.Presenter;
+using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,7 +15,7 @@ namespace Assets.Scripts.Dodgeball.Presenter
 		[SerializeField]
 		private ArenaPresenter _arena;
 
-		public void StartMatch(MatchModel model)
+		public async Task StartMatch(MatchModel model)
 		{
 			model.StartMatch(_arena.Model);
 			Model = model;
@@ -23,6 +27,23 @@ namespace Assets.Scripts.Dodgeball.Presenter
 			{
 				_arena.SpawnPlayer(model.PlayerRed.PlayerId);
 				_arena.SpawnPlayer(model.PlayerBlue.PlayerId);
+
+				await Task.Delay(2000);
+
+				MatchPostDto dto = new()
+				{
+					BluePlayerPlayFabId = model.PlayerBlue.PlayFabId,
+					RedPlayerPlayFabId = model.PlayerRed.PlayFabId,
+					HostPlayFabId = PlayFabPlayer.Instance.PlayfabId
+				};
+
+				Debug.Log($"blue: {dto.BluePlayerPlayFabId}, red: {dto.RedPlayerPlayFabId}, host: {dto.HostPlayFabId}");
+
+				var idDto = await BackendHandler.PostMatchAsync(dto);
+
+				Debug.Log($"id: {idDto?.MatchId}");
+
+				if (idDto != null) Model.Id = idDto.MatchId;
 			}
 		}
 

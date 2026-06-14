@@ -20,9 +20,9 @@ namespace Assets.Scripts.Dodgeball.Presenter
 			Model.MatchStarted += Model_MatchStarted;
 		}
 
-		private void Model_MatchStarted(object sender, EventArgs<MatchModel> e)
+		private async void Model_MatchStarted(object sender, EventArgs<MatchModel> e)
 		{
-			_matchPresenter.StartMatch(e.Value);
+			await _matchPresenter.StartMatch(e.Value);
 		}
 
 		protected override void Start()

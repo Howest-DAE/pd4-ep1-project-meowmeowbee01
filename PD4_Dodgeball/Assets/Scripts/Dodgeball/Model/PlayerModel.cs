@@ -17,6 +17,8 @@ namespace Assets.Scripts.Dodgeball.Model
 	/// </summary>
 	public class PlayerModel : ModelBase
 	{
+		public string PlayFabId;
+
 		public event EventHandler<ThrowBallEventArgs> BallThrown;
 		public event EventHandler<PlayerBallTouchEventArgs> TouchedByBall;
 		public event EventHandler<PlayerHitEventArgs> HitByPlayerBall;
