@@ -8,6 +8,7 @@ using UnityEngine;
 namespace Assets.Scripts.Player
 {
 	[RequireComponent(typeof(PlayerSync))]
+	[RequireComponent(typeof(PlayerPresenter))]
 	public class PlayerThrow : PresenterMonobehaviour<PlayerModel>
 	{
 		[SerializeField]
@@ -20,7 +21,6 @@ namespace Assets.Scripts.Player
 		private float _throwSpeed = 10f;
 
 		private PlayerPresenter _playerPresenter;
-		private ArenaPresenter _arenaPresenter;
 		private PlayerSync _sync;
 		private InputBallThrowStrategy _throwingStrategy;
 
@@ -66,14 +66,7 @@ namespace Assets.Scripts.Player
 		{
 			base.Awake();
 			_playerPresenter = GetComponent<PlayerPresenter>();
-			_arenaPresenter = FindAnyObjectByType<ArenaPresenter>();
 			_sync = GetComponent<PlayerSync>();
-		}
-
-		protected override void Start()
-		{
-			base.Start();
-			Model = _playerPresenter.Model;
 		}
 
 		protected override void Update()

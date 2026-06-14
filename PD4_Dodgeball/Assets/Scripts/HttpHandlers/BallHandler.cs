@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Dodgeball
+namespace Assets.Scripts.HttpHandlers
 {
 	public class BallHandler : MonobehaviourSingleton<BallHandler>
 	{

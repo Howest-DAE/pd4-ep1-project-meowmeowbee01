@@ -1,3 +1,4 @@
+using Assets.Scripts.HttpHandlers;
 using PlayFab;
 using System;
 using UnityEngine;
@@ -101,14 +102,16 @@ namespace Assets.PlayFab.Scripts.LoginSystem
 					Email = email,
 					Password = password
 				},
-				r =>
+				async r =>
 				{
-					Debug.Log("log in succes");
-					PlayFabPlayer.Instance.FetchDisplayName(async () => await SceneManager.LoadSceneAsync("LobbyScene"));
+					Debug.Log("login success");
+					PlayFabPlayer.Instance.PlayfabId = r.PlayFabId;
+					PlayFabPlayer.Instance.FetchDisplayName(async () => await BackendHandler.PostPlayerAsync(new() { PlayFabId = PlayFabPlayer.Instance.PlayfabId, DisplayName = PlayFabPlayer.Instance.DisplayName }));
+					await SceneManager.LoadSceneAsync("LobbyScene");
 				},
 				e =>
 				{
-					Debug.LogError($"log in failed: {e}");
+					Debug.LogError($"login failed: {e}");
 					string message = "Register failed:";
 					foreach (var pair in e.ErrorDetails) foreach (var msg in pair.Value) message += $"\n{msg}";
 					_loginPanelView.ShowError(message);

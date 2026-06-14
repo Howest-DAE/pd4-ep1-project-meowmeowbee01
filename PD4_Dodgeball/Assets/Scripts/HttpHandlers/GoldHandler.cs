@@ -3,7 +3,7 @@ using PlayFab.ClientModels;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.Dodgeball
+namespace Assets.Scripts.HttpHandlers
 {
 	public static class GoldHandler
 	{

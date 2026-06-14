@@ -1,5 +1,6 @@
 using Assets.Scripts.Dodgeball.Model;
 using Assets.Scripts.Dodgeball.Network;
+using Assets.Scripts.HttpHandlers;
 using Assets.Scripts.MVP.Presenter;
 using System.Threading.Tasks;
 using Unity.Netcode;

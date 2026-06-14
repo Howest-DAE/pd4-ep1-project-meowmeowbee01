@@ -1,11 +1,9 @@
-using Assets.PlayFab.Scripts.LoginSystem;
 using Assets.Scripts.Dodgeball.Model;
 using Assets.Scripts.Effects;
 using Assets.Scripts.MVP.Presenter;
 using Assets.Scripts.Player;
 using Assets.Scripts.Player.Strategies;
 using TMPro;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Assets.Scripts.Dodgeball.Presenter
@@ -46,11 +44,9 @@ namespace Assets.Scripts.Dodgeball.Presenter
 			base.Awake();
 		}
 
-		protected override void Start()
+		public void DisplayName(string name)
 		{
-			if (_displayText != null && NetworkManager.Singleton.LocalClientId == Model.PlayerId) _displayText.text = PlayFabPlayer.Instance.DisplayName;
-
-			base.Start();
+			if (_displayText != null) _displayText.text = name;
 		}
 
 		protected override void OnModelUpdated(PlayerModel previousModel)

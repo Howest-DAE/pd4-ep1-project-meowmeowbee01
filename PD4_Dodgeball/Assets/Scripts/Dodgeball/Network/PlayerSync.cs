@@ -1,41 +1,53 @@
+using Assets.PlayFab.Scripts.LoginSystem;
 using Assets.Scripts.Dodgeball.Model;
 using Assets.Scripts.Dodgeball.Presenter;
+using Assets.Scripts.HttpHandlers;
 using Assets.Scripts.Player;
 using System.Linq;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace Assets.Scripts.Dodgeball.Network
 {
 	[RequireComponent(typeof(PlayerPresenter))]
+	[RequireComponent(typeof(PlayerThrow))]
 	public class PlayerSync : NetworkBehaviour
 	{
 		public PlayerModel Model;
 		public NetworkVariable<ulong> BallId { get; set; } = new();
+		public NetworkVariable<FixedString32Bytes> PlayFabId { get; set; } = new(new(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
 		private PlayerPresenter _presenter;
 
 		private ArenaPresenter _arenaPresenter;
 
+		private PlayerThrow _playerThrow;
+
 		private void Awake()
 		{
 			_presenter = GetComponent<PlayerPresenter>();
 			_arenaPresenter = FindAnyObjectByType<ArenaPresenter>();
+			_playerThrow = GetComponent<PlayerThrow>();
 
 			BallId.OnValueChanged += (old, value) =>
 			{
 				if (value == 0) return;
 				Model.GrabbedBall = _arenaPresenter.GetBallPresenter(value)?.Model;
 			};
+
+			PlayFabId.OnValueChanged += async (old, value) => _presenter.DisplayName((await BackendHandler.GetPlayerAsync(value.ToString())).DisplayName);
 		}
 
-		protected override void OnNetworkPostSpawn()
+		public override async void OnNetworkSpawn()
 		{
+
 			//Find Model from MatchModel
 			var model = _arenaPresenter.Model.GetPlayer(OwnerClientId); //sometimes cant find the player
 			if (model == null)
-				Debug.LogWarning("evil mode");
+				Debug.LogError("evil mode");
 			Model = model;
+			_playerThrow.Model = model;
 
 			_presenter.Model = Model;
 			_presenter.ArenaPresenter = _arenaPresenter;
@@ -45,6 +57,9 @@ namespace Assets.Scripts.Dodgeball.Network
 			_arenaPresenter.AddPlayerPresenter(_presenter);
 
 			Model.PropertyChanged += Model_PropertyChanged;
+
+			if (IsOwner) PlayFabId.Value = PlayFabPlayer.Instance.PlayfabId;
+			if (!IsServer) _presenter.DisplayName((await BackendHandler.GetPlayerAsync(PlayFabId.Value.ToString())).DisplayName);
 		}
 
 		private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -60,6 +75,7 @@ namespace Assets.Scripts.Dodgeball.Network
 					break;
 			}
 		}
+
 
 		[Rpc(SendTo.Server)]
 		public void RequestGrabRpc()

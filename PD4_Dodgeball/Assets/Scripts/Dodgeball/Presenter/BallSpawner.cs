@@ -1,3 +1,4 @@
+using Assets.Scripts.HttpHandlers;
 using UnityEngine;
 
 namespace Assets.Scripts.Dodgeball.Presenter
