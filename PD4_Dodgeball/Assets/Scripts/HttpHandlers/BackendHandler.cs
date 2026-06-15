@@ -88,5 +88,31 @@ namespace Assets.Scripts.HttpHandlers
 			}
 			return null;
 		}
+
+		public static async Task PostHitAsync(int matchId, HitDto dto)
+		{
+			string uri = $"{_apiBaseUrl}/Matches/{matchId}/PlayerHit";
+			var request = UnityWebRequest.Post(uri, JsonConvert.SerializeObject(dto), "application/json");
+			await request.SendWebRequest();
+			switch (request.result)
+			{
+				case UnityWebRequest.Result.InProgress:
+					break;
+				case UnityWebRequest.Result.Success:
+					Debug.Log($"Successfully posted the hit to the server");
+					break;
+				case UnityWebRequest.Result.ConnectionError:
+					Debug.LogError($"failed to connect to server");
+					break;
+				case UnityWebRequest.Result.ProtocolError:
+					Debug.LogError($"server responded with {request.responseCode}");
+					break;
+				case UnityWebRequest.Result.DataProcessingError:
+					Debug.LogError($"failed process the response from the server");
+					break;
+				default:
+					break;
+			}
+		}
 	}
 }

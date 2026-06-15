@@ -43,7 +43,7 @@ namespace Assets.Scripts.Dodgeball.Presenter
 
 				Debug.Log($"id: {idDto?.MatchId}");
 
-				if (idDto != null) Model.Id = idDto.MatchId;
+				if (idDto != null) _arena.Model.MatchId = idDto.MatchId;
 			}
 		}
 

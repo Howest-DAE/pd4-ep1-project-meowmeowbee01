@@ -1,8 +1,10 @@
 using Assets.Scripts.Dodgeball.Model;
 using Assets.Scripts.Effects;
+using Assets.Scripts.HttpHandlers;
 using Assets.Scripts.MVP.Presenter;
 using Assets.Scripts.Player;
 using Assets.Scripts.Player.Strategies;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -63,13 +65,15 @@ namespace Assets.Scripts.Dodgeball.Presenter
 			}
 		}
 
-		private void Model_HitByBall(object sender, PlayerHitEventArgs e)
+		private async void Model_HitByBall(object sender, PlayerHitEventArgs e)
 		{
 			BallPresenter ball = ArenaPresenter.GetBallPresenter(e.Ball);
 			if (ball == null) return;
 
 			var particles = Instantiate(_hitParticlesPrefab).GetComponent<HitParticles>();
 			particles.Spawn(e.SourcePlayerColor, ball.transform.position, this);
+
+			await BackendHandler.PostHitAsync(ArenaPresenter.Model.MatchId, new() { TargetPlayFabId = Model.PlayFabId, ThrowerPlayFabId = ArenaPresenter.Model.GetPlayers().FirstOrDefault(p => p.PlayFabId != Model.PlayFabId).PlayFabId });
 		}
 
 		protected override void OnModelPropertyChanged(string propertyName)
