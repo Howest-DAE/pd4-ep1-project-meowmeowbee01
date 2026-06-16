@@ -2,6 +2,7 @@
 using Assets.PlayFab.Scripts.LoginSystem;
 using Assets.Scripts.Dodgeball.Model;
 using Assets.Scripts.Dodgeball.Model.Dtos;
+using Assets.Scripts.Dodgeball.Network;
 using Assets.Scripts.HttpHandlers;
 using Assets.Scripts.MVP.Presenter;
 using System.Threading.Tasks;
@@ -10,15 +11,20 @@ using UnityEngine;
 
 namespace Assets.Scripts.Dodgeball.Presenter
 {
+	[RequireComponent(typeof(MatchSync))]
 	public class MatchPresenter : PresenterMonobehaviour<MatchModel>
 	{
 		[SerializeField]
 		private ArenaPresenter _arena;
 
+		private MatchSync _sync;
+
 		public async Task StartMatch(MatchModel model)
 		{
+			_sync = GetComponent<MatchSync>();
 			model.StartMatch(_arena.Model);
 			Model = model;
+			_sync.Model = Model;
 
 			//Spawn ball
 			_arena.SpawnBall(0);
@@ -43,9 +49,12 @@ namespace Assets.Scripts.Dodgeball.Presenter
 
 				Debug.Log($"id: {idDto?.MatchId}");
 
-				if (idDto != null) _arena.Model.MatchId = idDto.MatchId;
+				if (idDto != null)
+				{
+					_arena.Model.MatchId = idDto.MatchId;
+					_sync.SetMatchIdRpc(idDto.MatchId);
+				}
 			}
 		}
-
 	}
 }

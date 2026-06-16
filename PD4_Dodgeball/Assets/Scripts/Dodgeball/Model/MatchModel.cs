@@ -9,6 +9,8 @@ namespace Assets.Scripts.Dodgeball.Model
 	/// </summary>
 	public class MatchModel : ModelBase
 	{
+		public int Id { get; set; }
+
 		public event EventHandler MatchEnded; //Gets invoked when time runs out
 
 		public int SecondsLeft
@@ -54,7 +56,7 @@ namespace Assets.Scripts.Dodgeball.Model
 		private int _scoreRed;
 		private int _scoreBlue;
 
-		private const int _matchDuration = 60;//seconds
+		private const int _matchDuration = 20;//seconds
 		private TimeSpan _timeLeft = TimeSpan.Zero;
 
 		public MatchModel(ulong redPlayerId, ulong bluePlayerId)

@@ -69,13 +69,12 @@ namespace Assets.Scripts.Dodgeball.Presenter.GameUI
 
 		private async Task IncreaseGold()
 		{
-			GoldHandler.IncreaseGold(15);
+			await GoldHandler.IncreaseGold(15);
 			await UpdateGold();
 		}
 
 		private async Task UpdateGold()
 		{
-			await Task.Delay(2000);
 			_goldLabel.text = $"Gold: {(await GoldHandler.GetGold())?.ToString() ?? string.Empty}";
 		}
 
