@@ -1,9 +1,10 @@
 using Assets.Scripts.HttpHandlers;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Assets.Scripts.Dodgeball.Presenter
 {
-	public class BallSpawner : MonoBehaviour //No model to present
+	public class BallSpawner : NetworkBehaviour
 	{
 		//Properties
 		public Transform SpawnLocation => _spawnLocation;
@@ -24,10 +25,11 @@ namespace Assets.Scripts.Dodgeball.Presenter
 
 		private void BallPurchaseSuccess(object sender, System.EventArgs e)
 		{
-			if (BallHandler.Instance.CurrentBallSpawner == this) SpawnBall();
+			if (BallHandler.Instance.CurrentBallSpawner == this) SpawnBallRpc();
 		}
 
-		public void SpawnBall()
+		[Rpc(SendTo.Server)]
+		public void SpawnBallRpc()
 		{
 			_arena.SpawnBall(SpawnLocationIndex);
 
@@ -37,8 +39,18 @@ namespace Assets.Scripts.Dodgeball.Presenter
 		{
 			if (other.CompareTag("Player"))
 			{
-				BallHandler.Instance.BuyBall(this);
+				Debug.Log("player entered spawner");
+				ulong id = other.GetComponent<PlayerPresenter>()?.Model?.PlayerId ?? 0;
+				BuyBallRpc(id);
 			}
+		}
+
+		[Rpc(SendTo.Everyone)]
+		private void BuyBallRpc(ulong playerId)
+		{
+			Debug.Log($"buyBallRpc triggered with playerId {playerId}");
+			if (playerId != NetworkManager.Singleton.LocalClientId) return;
+			BallHandler.Instance.BuyBall(this);
 		}
 	}
 }
